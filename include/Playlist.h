@@ -21,7 +21,6 @@ struct PlaylistNode {
 
     PlaylistNode(AudioTrack* t) : track(t), next(nullptr) {}
     ~PlaylistNode(){
-        delete track;
     };
     // we will need to make it so that the palylist node destroyer will destroy the pointers
 };

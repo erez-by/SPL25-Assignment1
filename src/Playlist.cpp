@@ -15,10 +15,12 @@ Playlist::~Playlist() {
     PlaylistNode* current = head;
     PlaylistNode* prev = nullptr;
     while (current) {
-        prev = current;
-        current = current->next;
-        delete prev;
+    PlaylistNode* temp = current;
+    current = current->next;
+    delete temp->track;
+    delete temp;
     }
+
 }
 
 void Playlist::add_track(AudioTrack* track) {
@@ -56,9 +58,8 @@ void Playlist::remove_track(const std::string& title) {
         } else {
             head = current->next;
         }
-
-    delete current;
-
+        delete current->track;
+        delete current;
 
         track_count--;
         std::cout << "Removed '" << title << "' from playlist" << std::endl;

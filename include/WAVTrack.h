@@ -4,6 +4,7 @@
 #include "AudioTrack.h"
 
 /**
+ * WavTrack implements AudioTrack
  * WAVTrack - Represents a WAV audio file with high-quality uncompressed audio
  * WAV files store raw audio data without compression, providing maximum quality
  * Students must implement all virtual functions from AudioTrack
