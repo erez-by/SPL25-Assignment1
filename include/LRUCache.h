@@ -115,4 +115,11 @@ private:
      * @return Slot index, or max_size if cache is full
      */
     size_t findEmptySlot() const;
+
+    /**
+     * @brief says if empty
+     * @return bool if empty
+     */
+    bool isEmpty() const;
+    
 };
