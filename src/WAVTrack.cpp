@@ -1,6 +1,9 @@
 #include "WAVTrack.h"
 #include <iostream>
 
+#include "WAVTrack.h"
+#include <iostream>
+
 WAVTrack::WAVTrack(const std::string& title, const std::vector<std::string>& artists, 
                    int duration, int bpm, int sample_rate, int bit_depth)
     : AudioTrack(title, artists, duration, bpm), sample_rate(sample_rate), bit_depth(bit_depth) {

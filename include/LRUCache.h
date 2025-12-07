@@ -116,10 +116,12 @@ private:
      */
     size_t findEmptySlot() const;
 
-    /**
-     * @brief says if empty
-     * @return bool if empty
+     /**
+     * @brief checks if the LRUCache is empty
+     * @return bool of the result
      */
     bool isEmpty() const;
+    
+  
     
 };
