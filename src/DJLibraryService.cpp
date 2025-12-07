@@ -36,7 +36,7 @@ void DJLibraryService::buildLibrary(const std::vector<SessionConfig::TrackInfo>&
                 trackInfo.bpm, 
                trackInfo.extra_param1,trackInfo.extra_param2);
                 library.push_back(newTrack);
-                 std::cout<<"– WAV: WAVTrack created:"<<trackInfo.title<<"at :"
+                 std::cout<<"– WAV: WAVTrack created:"<<trackInfo.title<<" at :"
                << trackInfo.extra_param1 <<"HZ/"<<trackInfo.extra_param2 << "bit"<<std::endl;
             count ++;
         }      
@@ -85,7 +85,7 @@ AudioTrack* DJLibraryService::findTrack(const std::string& track_title) {
 void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name, 
                                                const std::vector<int>& track_indices) {
     std::cout<<"[INFO] Loading playlist:"<< playlist_name << std::endl;
-    Playlist newPlaylist(playlist_name)  ;
+    this->playlist =  Playlist(playlist_name)  ;
     for(int i: track_indices){
         if(i<0 || i>library.size()){
             std::cout<<"[WARNING] Invalid track index:"<< i << std::endl;
@@ -100,12 +100,16 @@ void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name,
             }
              newTrack->load();
              newTrack->analyze_beatgrid();
-             newPlaylist.add_track(newTrack);
-             std::cout<<"Added:"<< newTrack->get_title() << "to playlist"<< playlist_name << std::endl;   
+             this->playlist.add_track(newTrack);
+             std::cout<<"Added:"<< newTrack->get_title() << "to playlist"<< this->playlist.get_name() << std::endl;   
 
         }
-    }                                     
-    std::cout<<"[INFO] Playlist loaded:"<< playlist_name << newPlaylist.get_track_count() <<"tracks"<< std::endl;
+    }
+    # ifdef DEBUG
+    std::cout << "[DEBUG] Inside Service - Playlist Address: " << &this->playlist << std::endl;
+    std::cout << "[DEBUG] Inside Service - Track Count: " << this->playlist.get_track_count() << std::endl;
+    # endif                                     
+    std::cout<<"[INFO] Playlist loaded: "<< playlist_name <<" with "<< this->playlist.get_track_count() <<" tracks"<< std::endl;
 
 }
 /**
