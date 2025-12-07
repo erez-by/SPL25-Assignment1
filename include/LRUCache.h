@@ -115,4 +115,10 @@ private:
      * @return Slot index, or max_size if cache is full
      */
     size_t findEmptySlot() const;
+
+     /**
+     * @brief checks if the LRUCache is empty
+     * @return bool of the result
+     */
+    bool isEmpty() const;
 };

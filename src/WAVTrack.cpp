@@ -1,6 +1,9 @@
 #include "WAVTrack.h"
 #include <iostream>
 
+#include "WAVTrack.h"
+#include <iostream>
+
 WAVTrack::WAVTrack(const std::string& title, const std::vector<std::string>& artists, 
                    int duration, int bpm, int sample_rate, int bit_depth)
     : AudioTrack(title, artists, duration, bpm), sample_rate(sample_rate), bit_depth(bit_depth) {
@@ -45,7 +48,7 @@ double WAVTrack::get_quality_score() const {
     if(bit_depth >= 16){base_score+=10;}
     if(bit_depth >= 24){base_score+=5;}
     if(base_score>=100.0){base_score=100.0;}
-    return 0.0; // Replace with your implementation
+    return base_score; // Replace with your implementation
 }
 
 PointerWrapper<AudioTrack> WAVTrack::clone() const {
