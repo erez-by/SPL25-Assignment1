@@ -121,4 +121,7 @@ private:
      * @return bool of the result
      */
     bool isEmpty() const;
+    
+  
+    
 };
