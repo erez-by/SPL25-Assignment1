@@ -50,6 +50,7 @@ public:
     std::vector<std::string> getTrackTitles() const;
 
     ~DJLibraryService();
+    
 
 private:
     Playlist playlist;
