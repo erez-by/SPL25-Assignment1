@@ -78,9 +78,8 @@ int DJSession::load_track_to_controller(const std::string& track_name) {
         stats.cache_misses++;
 
     } else if (deckResult == 1) {
-        stats.cache_hits++;
+        stats.cache_hits++;    
         
-        return true;
     } else if (deckResult == -1) {
         stats.cache_misses++;
         stats.cache_evictions++;
@@ -191,11 +190,6 @@ void DJSession::simulate_dj_performance() {
         }
     }
         print_session_summary();
-
-
-
-
-
 }
 
 
@@ -205,7 +199,7 @@ void DJSession::simulate_dj_performance() {
  * @return: true if configuration loaded successfully; false on error
  */
 bool DJSession::load_configuration() {
-    const std::string config_path = "bin/dj_config.txt";
+    const std::string config_path = "input_2qdg_config.txt";
     
     std::cout << "Loading configuration from: " << config_path << std::endl;
     
