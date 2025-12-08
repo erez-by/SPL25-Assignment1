@@ -8,6 +8,10 @@ Playlist::Playlist(const std::string& name)
 }
 // TODO: Fix memory leaks!
 // Students must fix this in Phase 1
+
+//RULE OF 5:
+////////////
+//1. destractor
 Playlist::~Playlist() {
     #ifdef DEBUG
     std::cout << "Destroying playlist: " << playlist_name << std::endl;
@@ -23,6 +27,100 @@ Playlist::~Playlist() {
 
 }
 
+// 2. Copy Constructor
+// Creating a deep copy of the Playlist
+Playlist::Playlist(const Playlist& other) 
+    : head(nullptr), playlist_name(other.playlist_name), track_count(0) {
+    
+    if (other.head == nullptr) {
+        return;
+    }
+
+    //copying the head of the list
+    head = new PlaylistNode(other.head->track);
+    track_count++;
+
+    PlaylistNode* current = head;
+    PlaylistNode* otherCurrent = other.head->next;
+
+    // copying the rest of the list
+    while (otherCurrent) {
+        current->next = new PlaylistNode(otherCurrent->track);
+        current = current->next;
+        otherCurrent = otherCurrent->next;
+        track_count++;
+    }
+}
+
+// 3. Copy Assignment Operator
+    Playlist& Playlist::operator=(const Playlist& other) {
+        if (this == &other) {
+        return *this;
+    }
+
+    PlaylistNode* current = head;
+    while (current) {
+        PlaylistNode* nextNode = current->next;
+        // if owning: delete current->track;
+        delete current;
+        current = nextNode;
+    }
+    head = nullptr;
+    track_count = 0;
+
+    playlist_name = other.playlist_name;
+    
+    if (other.head) {
+        head = new PlaylistNode(other.head->track);
+        track_count++;
+        
+        PlaylistNode* destCurr = head;
+        PlaylistNode* srcCurr = other.head->next;
+        
+        while (srcCurr) {
+            destCurr->next = new PlaylistNode(srcCurr->track);
+            destCurr = destCurr->next;
+            srcCurr = srcCurr->next;
+            track_count++;
+        }
+    }
+
+    return *this;
+}
+
+// 4. Move Constructor
+Playlist::Playlist(Playlist&& other) noexcept 
+    : head(other.head), playlist_name(std::move(other.playlist_name)), track_count(other.track_count) {
+
+    other.head = nullptr;
+    other.track_count = 0;
+}
+
+// 5. Move Assignment Operator
+Playlist& Playlist::operator=(Playlist&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+
+    PlaylistNode* current = head;
+    while (current) {
+        PlaylistNode* nextNode = current->next;
+        // if owning: delete current->track;
+        delete current;
+        current = nextNode;
+    }
+    head = other.head;
+    playlist_name = std::move(other.playlist_name);
+    track_count = other.track_count;
+
+    other.head = nullptr;
+    other.track_count = 0;
+
+    return *this;
+}
+
+
+
 void Playlist::add_track(AudioTrack* track) {
     if (!track) {
         std::cout << "[Error] Cannot add null track to playlist" << std::endl;
@@ -37,8 +135,8 @@ void Playlist::add_track(AudioTrack* track) {
     head = new_node;
     track_count++;
 
-    std::cout << "Added '" << track->get_title() << "' to playlist '" 
-              << playlist_name << "'" << std::endl;
+    // std::cout << "Added '" << track->get_title() << "' to playlist '" 
+    //           << playlist_name << "'" << std::endl;
 }
 
 void Playlist::remove_track(const std::string& title) {

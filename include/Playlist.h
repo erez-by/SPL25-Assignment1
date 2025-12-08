@@ -42,6 +42,19 @@ public:
      */
     ~Playlist();
 
+    // Copy constructor
+    Playlist(const Playlist& other); 
+    
+    // Copy assignment operator             
+    Playlist& operator=(const Playlist& other);   
+    
+    // Move constructor
+    Playlist(Playlist&& other) noexcept;
+    
+    // Move assignment operator          
+    Playlist& operator=(Playlist&& other) noexcept; 
+
+
     /**
      * Add a track to the playlist
      * @param track Pointer to AudioTrack to add

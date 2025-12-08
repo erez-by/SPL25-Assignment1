@@ -31,8 +31,15 @@ bool DJSession::load_playlist(const std::string& playlist_name)  {
     
     // Load playlist from track indices
     library_service.loadPlaylistFromIndices(playlist_name, it->second);
+
+    # ifdef DEBUG
+    Playlist& sessionPlaylist = library_service.getPlaylist();
     
+    std::cout << "[DEBUG] Inside Session - Playlist Address: " << &sessionPlaylist << std::endl;
+    std::cout << "[DEBUG] Inside Session - Track Count: " << sessionPlaylist.get_track_count() << std::endl;
+    # endif
     if (library_service.getPlaylist().is_empty()) {
+        std::cerr << "[ERROR] Playlist '" << playlist_name << "' is empty \n";
         return false;
     }
     

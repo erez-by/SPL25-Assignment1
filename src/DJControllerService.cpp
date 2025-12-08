@@ -11,19 +11,21 @@ DJControllerService::DJControllerService(size_t cache_size)
  */
 int DJControllerService::loadTrackToCache(AudioTrack& track) {
     std::string trackName = track.get_title();
+    // cheaks if contains the track
     if(cache.contains(trackName)) {
         cache.get(trackName);
         return 1;
     }
-
+// POLYAMORPHIC cloning
     PointerWrapper<AudioTrack> trackClone = track.clone();
     if(!trackClone) {
         std::cout <<"[ERROR] null pionter , faild to load"<< trackName << std::endl;
         return 0;
     }
-
+// load and alnyize bit
     trackClone -> load();
     trackClone -> analyze_beatgrid();
+    // cheaks if evict
     bool didEvect = cache.put(std::move(trackClone));
     if(didEvect) return -1;
     return 0;
