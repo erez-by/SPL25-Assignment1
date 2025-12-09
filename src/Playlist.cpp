@@ -17,7 +17,6 @@ Playlist::~Playlist() {
     std::cout << "Destroying playlist: " << playlist_name << std::endl;
     #endif
     PlaylistNode* current = head;
-    PlaylistNode* prev = nullptr;
     while (current) {
     PlaylistNode* temp = current;
     current = current->next;

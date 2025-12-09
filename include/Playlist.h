@@ -20,9 +20,11 @@ struct PlaylistNode {
     PlaylistNode* next;
 
     PlaylistNode(AudioTrack* t) : track(t), next(nullptr) {}
-    ~PlaylistNode(){
-    };
     // we will need to make it so that the palylist node destroyer will destroy the pointers
+    ~PlaylistNode(){};
+    //deltes the copyt noctranctor and operator becuse playlist is in charge of this ofc
+    PlaylistNode(const PlaylistNode&) = delete;
+    PlaylistNode& operator= (const PlaylistNode&) = delete;
 };
 
 class Playlist {

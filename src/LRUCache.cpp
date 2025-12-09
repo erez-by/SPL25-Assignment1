@@ -24,14 +24,14 @@ bool LRUCache::put(PointerWrapper<AudioTrack> track) {
     if(!track) return didEvict;
 
     std:: string trackName = track->get_title();
-
+//update the chache rteading and increse counter
     if(contains(trackName)){
         slots[findSlot(trackName)].access(++access_counter);
         return didEvict;
     }
-
+//if max size call evictLRU
     if(size() == max_size)  didEvict = evictLRU();
-    
+    //find empty slot and store track , update chache reading 
     size_t emptySlot = findEmptySlot();
     slots[emptySlot].store(std::move(track),++access_counter);
     
@@ -85,6 +85,7 @@ size_t LRUCache::findLRUSlot() const {
 
     size_t lruIndex = max_size;
     uint64_t minAcess = UINT64_MAX;
+    //loop the indexsies and looks for the last acceses index and returns it 
     for(size_t i = 0; i < max_size; ++i){
         if(slots[i].isOccupied()){
             if(slots[i].getLastAccessTime()<minAcess) {

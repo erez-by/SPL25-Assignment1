@@ -53,10 +53,11 @@ double MP3Track::get_quality_score() const {
     if(bitrate<128){base_score-=10;}
     if(base_score<=0.0){base_score=0.0;}
     if(base_score>=100.0){base_score=100.0;}
-    return base_score; // Replace with your implementation
+    return base_score; 
 }
 
 PointerWrapper<AudioTrack> MP3Track::clone() const {
     // TODO: Implement polymorphic cloning
+    //uses the pointer wrraper cloning constractor
      return PointerWrapper<AudioTrack>(new MP3Track(*this));
 }

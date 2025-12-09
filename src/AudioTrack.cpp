@@ -6,7 +6,7 @@
 AudioTrack::AudioTrack(const std::string& title, const std::vector<std::string>& artists, 
                       int duration, int bpm, size_t waveform_samples)
     : title(title), artists(artists), duration_seconds(duration), bpm(bpm), 
-      waveform_data(nullptr), waveform_size(waveform_samples) {
+      waveform_data(nullptr),waveform_size(waveform_samples) {
 
     // Allocate memory for waveform analysis
     waveform_data = new double[waveform_size];
@@ -45,12 +45,13 @@ AudioTrack::AudioTrack(const AudioTrack& other):
     artists(other.artists), 
     duration_seconds(other.duration_seconds),
     bpm(other.bpm),
-    waveform_size(other.waveform_size),  
-    waveform_data(new double[other.waveform_size])
+    waveform_data(new double[other.waveform_size]),
+    waveform_size(other.waveform_size)
 {
     #ifdef DEBUG
     std::cout << "AudioTrack copy constructor called for: " << other.title << std::endl;
     #endif
+    //deep copy
     for (size_t i = 0; i < waveform_size; ++i) {
         waveform_data[i] = other.waveform_data[i];
     }
@@ -77,6 +78,7 @@ AudioTrack& AudioTrack::operator=(const AudioTrack& other) {
 }
 
 AudioTrack::AudioTrack(AudioTrack&& other) noexcept:
+//moves all the veriables
 title(std::move(other.title)),
 artists(std::move(other.artists)),
 duration_seconds(other.duration_seconds),
@@ -88,6 +90,7 @@ waveform_size(other.waveform_size)
     #ifdef DEBUG
     std::cout << "AudioTrack move constructor called for: " << other.title << std::endl;
     #endif
+    //cleans the previos pointer 
     other.waveform_data = nullptr;
     other.waveform_size=0;
     
@@ -105,8 +108,10 @@ AudioTrack& AudioTrack::operator=(AudioTrack&& other) noexcept {
     duration_seconds = other.duration_seconds;
     bpm = other.bpm;
     waveform_size = other.waveform_size;
+    //delete current data
     delete[] waveform_data;
     waveform_data= other.waveform_data;
+    //cleans other pointer data
     other.waveform_data=nullptr;
     other.waveform_size=0;
     }

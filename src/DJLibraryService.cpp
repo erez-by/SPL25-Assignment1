@@ -85,21 +85,27 @@ AudioTrack* DJLibraryService::findTrack(const std::string& track_title) {
 void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name, 
                                                const std::vector<int>& track_indices) {
     std::cout<<"[INFO] Loading playlist:"<< playlist_name << std::endl;
+    //create this.playlist field 
     this->playlist =  Playlist(playlist_name)  ;
     for(int i: track_indices){
-        if(i<0 || i>library.size()){
+        //cheaks if out of bounds
+        if(i<0 || static_cast<size_t>(i) > library.size()){
             std::cout<<"[WARNING] Invalid track index:"<< i << std::endl;
         }
         else{
+            //get from the librery , mind the indexsis in librey the start from 1
             AudioTrack * sourceTrack = library[i-1];
+            //polymorphicv cloning
             PointerWrapper<AudioTrack> warappedTrack = sourceTrack->clone();
             AudioTrack * newTrack = warappedTrack.release();
-
+            //cheaks if null meaning problem in cloning
             if(!newTrack){
                 std::cout<<"[ERROR] null track index:"<< i << std::endl;
             }
+            //load and analyze
              newTrack->load();
              newTrack->analyze_beatgrid();
+             //add tracks using palylist methode
              this->playlist.add_track(newTrack);
              std::cout<<"Added:"<< newTrack->get_title() << "to playlist"<< this->playlist.get_name() << std::endl;   
 
@@ -118,6 +124,7 @@ void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name,
  */
 std::vector<std::string> DJLibraryService::getTrackTitles() const {
     std::vector<std::string> TrackTitles;
+    //loops the tracks and call get title method of auodiotrack
     for(AudioTrack* track :playlist.getTracks()){
        auto title = track -> get_title();
         TrackTitles.push_back(title);
